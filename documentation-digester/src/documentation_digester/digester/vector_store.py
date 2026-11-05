@@ -3,7 +3,7 @@ from pathlib import Path
 import chromadb
 
 # Find the repository root and set where Chroma saves its database.
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
+PROJECT_ROOT = Path(__file__).resolve().parents[4]
 CHROMA_PATH = PROJECT_ROOT / "data" / "chroma"
 COLLECTION_NAME = "documentation"
 
