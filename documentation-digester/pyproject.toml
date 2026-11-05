@@ -7,7 +7,9 @@ authors = [
     { name = "Kasson Davis", email = "135732515+KassonD@users.noreply.github.com" }
 ]
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "langchain>=1.4.9",
+]
 
 [project.scripts]
 documentation-digester = "documentation_digester:main"
