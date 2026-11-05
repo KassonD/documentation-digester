@@ -219,10 +219,7 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 
-<<<<<<< HEAD
 # Ignore local Chroma database files
 /data/chroma/
-=======
 # Annoying Mac Files
 .DS_Store
->>>>>>> main

@@ -1,6 +1,11 @@
+from pathlib import Path
+
 import chromadb
 
-from .config import CHROMA_PATH, COLLECTION_NAME
+# Find the repository root and set where Chroma saves its database.
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+CHROMA_PATH = PROJECT_ROOT / "data" / "chroma"
+COLLECTION_NAME = "documentation"
 
 def get_collection():
     """ 
