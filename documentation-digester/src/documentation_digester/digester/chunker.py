@@ -1,62 +1,44 @@
 from langchain_core.documents import Document
 from langchain_text_splitters import HTMLHeaderTextSplitter, RecursiveCharacterTextSplitter
+from pathlib import Path
 
-cleaned_html = """
-<h1>CharacterBody2D</h1>
-
-<p>
-    CharacterBody2D is a physics-based body
-    that is controlled by the user.
-</p>
-
-<h2>Movement</h2>
-
-<p>
-    CharacterBody2D provides a velocity property
-    that controls its movement.
-</p>
-
-<h3>move_and_slide()</h3>
-
-<p>
-    This method moves the body based on its velocity.
-</p>
-
-<h2>Collision</h2>
-
-<p>
-    CharacterBody2D can detect collisions
-    with other physics bodies.
-</p>
-"""
-
-headers_to_split_on = [
+_CHUNK_SIZE = 1000
+_CHUNK_OVERLAP = 150
+_CLEAN_HTML_DIR_PATH = Path(__file__).parent.parent / "data" / "clean_html"
+_HEADERS_TO_SPLIT_ON = [
     ("h1", "title"),
     ("h2", "subtitle"),
     ("h3", "topic"),
 ]
 
-def split_text(html_content: str) -> list[Document]:
-    html_splitter = HTMLHeaderTextSplitter(headers_to_split_on=headers_to_split_on)
+# Turns the clean html into LangChain documents
+def _split_text(html_content: str) -> list[Document]:
+    html_splitter = HTMLHeaderTextSplitter(headers_to_split_on=_HEADERS_TO_SPLIT_ON)
     return html_splitter.split_text(html_content)
 
-def chunk_documents(documents: list[Document]) -> list[Document]:
-    recursive_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=150)
+# Splits the documents into chunks.
+# If a document has too much content, another document will be created.
+# This prevents documents from having too much unrelated content.
+def _chunk_documents(documents: list[Document]) -> list[Document]:
+    recursive_splitter = RecursiveCharacterTextSplitter(chunk_size=_CHUNK_SIZE, chunk_overlap=_CHUNK_OVERLAP)
     return recursive_splitter.split_documents(documents)
 
-documents = split_text(cleaned_html)
-chunked_documents = chunk_documents(documents)
+# Returns documents created using the clean html files
+def chunk() -> list[Document]:
+    chunks = []
 
-print ("DOCUMENTS\n")
+    for file_path in _CLEAN_HTML_DIR_PATH.iterdir():
+        if file_path.is_file():
+            with open(file_path, "r") as file:
+                content = file.read()
+                documents = _split_text(content)
+                chunked_documents = _chunk_documents(documents)
+                chunks.extend(chunked_documents)
 
-for document in documents:
-    print("---\n", document.page_content)
-    print(document)
+    return chunks
 
-print ("CHUNKS\n")
+# dlist = chunk()
 
-for document in chunked_documents:
-    print("---\n", document.page_content)
-    print(document.metadata)
-
-
+# for d in dlist:
+#     print("---\n", d.page_content)
+#     print(d.metadata)
