@@ -122,7 +122,7 @@ def delete_document(source_path: str) -> None:
 
 
 def replace_document(source_path: str, ids: list[str], texts: list[str], embeddings: list[list[float]], metadatas: list[dict], ) -> None:
-    """Store a document's new chunks and remove it's outdated chunks.
+    """Store a document's new chunks and remove its outdated chunks.
 
     Every incoming chunk must belong to this document.
     Use delete_document() if there are no remaining chunks.
@@ -131,7 +131,7 @@ def replace_document(source_path: str, ids: list[str], texts: list[str], embeddi
         raise ValueError("source_path cannot be empty.")
 
     if not (len(ids) == len(texts) == len(embeddings) == len(metadatas)):
-        raise ValueError("All input lists must hvae the same length.")
+        raise ValueError("All input lists must have the same length.")
 
     if not ids:
         raise ValueError("Use delete_document() to remove all chunks.")
