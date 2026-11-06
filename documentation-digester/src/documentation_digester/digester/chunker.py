@@ -27,7 +27,7 @@ def _chunk_documents(documents: list[Document]) -> list[Document]:
 def chunk() -> list[Document]:
     chunks = []
 
-    for file_path in _CLEAN_HTML_DIR_PATH.iterdir():
+    for file_path in _CLEAN_HTML_DIR_PATH.rglob("*.html"):
         if file_path.is_file():
             with open(file_path, "r") as file:
                 content = file.read()
