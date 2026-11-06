@@ -31,29 +31,6 @@ def clean_html(file_path):
     "source": file_path.relative_to(DOCS_PATH).as_posix(),
     }
 
-def clean_all_html():
-    excluded_files = {
-        "404.html",
-        "genindex.html",
-        "search.html",
-    }
-
-    html_files = [
-        file for file in DOCS_PATH.rglob("*.html")
-        if file.name not in excluded_files
-    ]
-
-    print(f"Found {len(html_files)} documentation files.\n")
-
-    for file_path in html_files[:5]:
-        cleaned = clean_html(file_path)
-
-        if cleaned:
-            print(f"Successfully cleaned: {file_path.name}")
-            print(f"Source: {cleaned['source']}\n")
-        else:
-            print(f"Failed to clean: {file_path.name}")
-
 def get_cleaned_documents(limit=None):
     excluded_files = {
         "404.html",
@@ -151,27 +128,7 @@ def validate_cleaner():
 
 if __name__ == "__main__":
     save_cleaned_documents()
-    # test_file = DOCS_PATH / "classes" / "class_node.html"
-    # cleaned = clean_html(test_file)
 
-    # if cleaned:
-    #     soup = BeautifulSoup(cleaned["content"], "html.parser")
-
-    #     headings = soup.find_all(["h1", "h2", "h3"])
-    #     code_blocks = soup.find_all("pre")
-
-    #     print(f"Headings found: {len(headings)}")
-    #     print(f"Code blocks found: {len(code_blocks)}")
-
-    #     print("\nFirst 5 headings:")
-    #     for heading in headings[:5]:
-    #         print("-", heading.get_text(strip=True))
-
-    #     print("\nFirst code example:")
-    #     if code_blocks:
-    #         print(code_blocks[0].get_text()[:500])
-    #     else:
-    #         print("No code examples found.")
 
 
 
