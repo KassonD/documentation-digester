@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 
 # path to the generated Godot documentation
 DOCS_PATH = Path(__file__).resolve().parent.parent /"data"/"godot_docs_built"
+CLEAN_HTML_PATH = DOCS_PATH.parent/"clean_html"
 
 def clean_html(file_path):
     with open(file_path, "r", encoding="utf-8") as file: # read HTML file
@@ -77,6 +78,24 @@ def get_cleaned_documents(limit=None):
     return documents
 
 
+def save_cleaned_documents(limit=None):
+    CLEAN_HTML_PATH.mkdir(parents=True, exist_ok=True)
+
+    documents = get_cleaned_documents(limit=limit)
+
+    for document in documents:
+        source = Path(document["source"])
+
+        # Preserve the original folder structure
+        output_path = CLEAN_HTML_PATH / source
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+
+        with open(output_path, "w", encoding="utf-8") as file:
+            file.write(document["content"])
+
+    print(f"Saved {len(documents)} cleaned HTML files.")
+
+
 def validate_cleaner():
     html_files = list(DOCS_PATH.rglob("*.html"))
 
@@ -131,27 +150,28 @@ def validate_cleaner():
 
 
 if __name__ == "__main__":
-    test_file = DOCS_PATH / "classes" / "class_node.html"
-    cleaned = clean_html(test_file)
+    save_cleaned_documents()
+    # test_file = DOCS_PATH / "classes" / "class_node.html"
+    # cleaned = clean_html(test_file)
 
-    if cleaned:
-        soup = BeautifulSoup(cleaned["content"], "html.parser")
+    # if cleaned:
+    #     soup = BeautifulSoup(cleaned["content"], "html.parser")
 
-        headings = soup.find_all(["h1", "h2", "h3"])
-        code_blocks = soup.find_all("pre")
+    #     headings = soup.find_all(["h1", "h2", "h3"])
+    #     code_blocks = soup.find_all("pre")
 
-        print(f"Headings found: {len(headings)}")
-        print(f"Code blocks found: {len(code_blocks)}")
+    #     print(f"Headings found: {len(headings)}")
+    #     print(f"Code blocks found: {len(code_blocks)}")
 
-        print("\nFirst 5 headings:")
-        for heading in headings[:5]:
-            print("-", heading.get_text(strip=True))
+    #     print("\nFirst 5 headings:")
+    #     for heading in headings[:5]:
+    #         print("-", heading.get_text(strip=True))
 
-        print("\nFirst code example:")
-        if code_blocks:
-            print(code_blocks[0].get_text()[:500])
-        else:
-            print("No code examples found.")
+    #     print("\nFirst code example:")
+    #     if code_blocks:
+    #         print(code_blocks[0].get_text()[:500])
+    #     else:
+    #         print("No code examples found.")
 
 
 

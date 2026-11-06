@@ -221,3 +221,6 @@ __marimo__/
 
 # Annoying Mac Files
 .DS_Store
+
+# Ignore generated cleaned HTML files
+**/data/clean_html/
