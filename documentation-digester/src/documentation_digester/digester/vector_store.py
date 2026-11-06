@@ -191,3 +191,44 @@ def replace_document(source_path: str, ids: list[str], texts: list[str], embeddi
         collection.delete(
             ids=outdated_ids[start:start + batch_size],
         )
+
+def search_chunks(query_embedding: list[float], top_k: int = 5,) -> list[dict]:
+    """
+    Return the closest stored chunks for a query embedding.
+
+    The query must use the same embedding model as the stored chunks.
+    Each match includes its ID, text, metadata, and distance.
+    A smaller distance means a closer match.
+    """
+    if type(top_k) is not int or top_k < 1:
+        raise ValueError("top_k must be a positive integer.")
+    
+    if any (type(value) not in (int, float) or not isfinite(value) for value in query_embedding):
+        raise ValueError("The query embedding must contain finite numbers.")
+    
+    collection = get_collection()
+
+    # Return no matches if nothing has been indexed.
+    count = collection.count()
+    if count == 0:
+        return []
+    
+    # Chroma expects a list of query vectors, even for one query.
+    results = collection.query(
+        query_embeddings=[query_embedding],
+        n_results=min(top_k, count),
+        include=["documents", "metadatas", "distances"],
+    )
+
+    # Index 0 selects the results for our single query.
+    matches = []
+
+    for index, chunk_id in enumerate(results["ids"][0]):
+        matches.append({
+            "id": chunk_id,
+            "text": results["documents"][0][index],
+            "metadata": results["metadatas"][0][index],
+            "distance": results["distances"][0][index],
+        })
+    
+    return matches
