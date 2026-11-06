@@ -9,7 +9,7 @@ CHROMA_PATH = PROJECT_ROOT / "data" / "chroma"
 COLLECTION_NAME = "documentation"
 
 def get_collection():
-    """ 
+    """
     Open the Chroma database and get the documentation collection.
 
     If the collection doesn't exist, create it. The database is saved
@@ -112,7 +112,7 @@ def delete_document(source_path: str) -> None:
     # Reject an empty or whitespace-only path.
     if not source_path.strip():
         raise ValueError("source_path cannot be empty.")
-    
+
     collection = get_collection()
 
     # Only delete chunks whose source_path matches this document.
@@ -123,7 +123,7 @@ def delete_document(source_path: str) -> None:
 
 def replace_document(source_path: str, ids: list[str], texts: list[str], embeddings: list[list[float]], metadatas: list[dict], ) -> None:
     """Store a document's new chunks and remove it's outdated chunks.
-    
+
     Every incoming chunk must belong to this document.
     Use delete_document() if there are no remaining chunks.
     """
@@ -143,7 +143,7 @@ def replace_document(source_path: str, ids: list[str], texts: list[str], embeddi
             or metadata.get("source_path") != source_path
         ):
             raise ValueError("Every chunk must belong to this document.")
-    
+
     if any(
         not isinstance(chunk_id, str) or not chunk_id.strip()
         for chunk_id in ids
@@ -152,7 +152,7 @@ def replace_document(source_path: str, ids: list[str], texts: list[str], embeddi
 
     if len(set(ids)) != len(ids):
         raise ValueError("Chunk IDs must be unique within the input.")
-    
+
     collection = get_collection()
     client = chromadb.PersistentClient(path=str(CHROMA_PATH))
     batch_size = min(256, client.get_max_batch_size())
