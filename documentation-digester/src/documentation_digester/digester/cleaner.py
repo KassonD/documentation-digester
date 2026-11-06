@@ -129,15 +129,30 @@ def validate_cleaner():
             print(file)
 
 
+
 if __name__ == "__main__":
-    # validate_cleaner()
     test_file = DOCS_PATH / "classes" / "class_node.html"
     cleaned = clean_html(test_file)
 
     if cleaned:
         soup = BeautifulSoup(cleaned["content"], "html.parser")
 
-        print(soup.get_text(separator=" ", strip=True)[:500])
+        headings = soup.find_all(["h1", "h2", "h3"])
+        code_blocks = soup.find_all("pre")
+
+        print(f"Headings found: {len(headings)}")
+        print(f"Code blocks found: {len(code_blocks)}")
+
+        print("\nFirst 5 headings:")
+        for heading in headings[:5]:
+            print("-", heading.get_text(strip=True))
+
+        print("\nFirst code example:")
+        if code_blocks:
+            print(code_blocks[0].get_text()[:500])
+        else:
+            print("No code examples found.")
+
 
 
         
