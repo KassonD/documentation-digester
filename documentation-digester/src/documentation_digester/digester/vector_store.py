@@ -44,7 +44,7 @@ def upsert_chunks( ids: list[str], texts: list[str], embeddings: list[list[float
     if not (len(ids) == len(texts) == len(embeddings) == len(metadatas)):
         raise ValueError("All input lists must have the same length.")
 
-    if not isinstance(batch_size, int) or batch_size < 1:
+    if type(batch_size) is not int or batch_size < 1:
         raise ValueError("batch_size must be a positive integer.")
 
     if not ids:
@@ -110,7 +110,7 @@ def delete_document(source_path: str) -> None:
     This removes the chunks from Chroma, not the original source file.
     """
     # Reject an empty or whitespace-only path.
-    if not source_path.strip():
+    if not isinstance(source_path, str) or not source_path.strip():
         raise ValueError("source_path cannot be empty.")
 
     collection = get_collection()
@@ -203,7 +203,13 @@ def search_chunks(query_embedding: list[float], top_k: int = 5,) -> list[dict]:
     if type(top_k) is not int or top_k < 1:
         raise ValueError("top_k must be a positive integer.")
     
-    if any (type(value) not in (int, float) or not isfinite(value) for value in query_embedding):
+    if not query_embedding:
+        raise ValueError("The query embedding cannot be empty.")
+    
+    if any(
+        type(value) not in (int, float) or not isfinite(value)
+        for value in query_embedding
+    ):
         raise ValueError("The query embedding must contain finite numbers.")
     
     collection = get_collection()
