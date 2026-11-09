@@ -6,5 +6,7 @@
 
 .dashboard {
   flex: 1;
-  background: linear-gradient(#032729, #075254);
+  background: linear-gradient(#075254, #138D86);
+  border-radius: 50px;
+  margin: 20px;
 }
