@@ -49,8 +49,8 @@ def chunk() -> list[Document]:
 
     return chunks
 
-dlist = chunk()
+# dlist = chunk()
 
-for d in dlist:
-    print("---\n", d.page_content)
-    print(d.metadata)
+# for d in dlist:
+#     print("---\n", d.page_content)
+#     print(d.metadata)
