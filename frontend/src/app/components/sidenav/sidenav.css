@@ -12,6 +12,12 @@
   width: 2.75rem;
 }
 
+@media (max-width: 768px) {
+  :host {
+    width: 14rem;
+  }
+}
+
 h1 {
   margin: 0 0.75rem 0.5rem;
   color: #fff;
@@ -26,12 +32,40 @@ hr {
   border-top: 1px solid #fff;
 }
 
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.new-chat {
+  display: block;
+  width: calc(100% - 1rem);
+  margin: 0.5rem 0.5rem 1rem;
+  padding: 0.35rem 0.35rem 0.35rem 0.75rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #b7c6c2;
+  font-family: sans-serif;
+  font-size: 0.8125rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.new-chat:hover,
+.new-chat:focus-visible {
+  background: #1e2a27;
+}
+
 :host(.collapsed) h1,
-:host(.collapsed) hr {
+:host(.collapsed) hr,
+:host(.collapsed) ul,
+:host(.collapsed) .new-chat {
   display: none;
 }
 
-button {
+.toggle {
   display: grid;
   place-items: center;
   width: 1.75rem;

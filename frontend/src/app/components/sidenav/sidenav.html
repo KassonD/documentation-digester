@@ -1,7 +1,20 @@
-<button type="button" (click)="toggle()" [attr.aria-expanded]="open()" aria-label="Toggle sidebar">
+<button type="button" class="toggle" (click)="toggle()" [attr.aria-expanded]="open()" aria-label="Toggle sidebar">
   <svg viewBox="0 0 24 24" aria-hidden="true">
     <path d="M4 7h16M4 12h16M4 17h16" />
   </svg>
 </button>
 <h1>HISTORY</h1>
 <hr>
+<button type="button" class="new-chat" (click)="create()">+ New chat...</button>
+<ul>
+  @for (chat of chats(); track $index) {
+    <li>
+      <app-chat-history-item
+        [title]="chat"
+        [selected]="selectedIndex() === $index"
+        (titleChange)="rename($index, $event)"
+        (selectedChange)="select($index)"
+      />
+    </li>
+  }
+</ul>

@@ -1,0 +1,20 @@
+<div class="item" [class.selected]="selected()">
+  @if (editing()) {
+    <input
+      [value]="draft()"
+      (input)="onDraft($event)"
+      (keydown.enter)="save()"
+      (keydown.escape)="cancel()"
+      (blur)="save()"
+      aria-label="Chat title"
+      autofocus
+    />
+  } @else {
+    <button type="button" class="title" (click)="choose()">{{ title() }}</button>
+    <button type="button" class="edit" aria-label="Edit title" (click)="edit()">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 20h4L18 10l-4-4L4 16v4zM13 7l4 4" />
+      </svg>
+    </button>
+  }
+</div>
