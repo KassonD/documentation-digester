@@ -1,0 +1,5 @@
+<div class="container">
+    @for (message of messageList; track message) {
+        <app-chat-bubble [message]="message.message" [isPrompt]="message.isPrompt"></app-chat-bubble>
+    }
+</div>
