@@ -1,0 +1,46 @@
+.chat-bar-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    gap: 10px;
+}
+
+.chat-input {
+    width: 500px;
+    max-width: 80%;
+    padding: 12px 16px;
+    border: 1px solid #cccccc;
+    border-radius: 24px;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s ease;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+.chat-input:focus {
+  border-color: #007bff; /* Highlights blue when typing */
+}
+
+.send-btn {
+  background-color: #032729;
+  color: #B4F5ED;
+  border: none;
+  border-radius: 50%; /* Circle button */
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+.send-btn:hover {
+  background-color: #0056b3;
+}
+
+.send-btn:active {
+  transform: scale(0.95);
+}
