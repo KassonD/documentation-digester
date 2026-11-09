@@ -3,6 +3,9 @@
         @if (!chatStarted) {
             <app-welcome-message></app-welcome-message>
         } 
+        @else {
+            <app-messages-list></app-messages-list>
+        }
         <app-chat-bar
             (questionSubmitted)="onQuestionSubmitted($event)">
         </app-chat-bar>

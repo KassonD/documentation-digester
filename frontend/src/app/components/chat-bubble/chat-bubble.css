@@ -1,0 +1,36 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    padding: 16px;
+    text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+.right {
+    justify-content: right;
+}
+.right .bubble {
+    background-color: #39D6C5;
+    color: #032729;
+    border-radius: 20px 20px 0 20px;
+}
+
+.left {
+    justify-content: left;
+}
+.left .bubble {
+    background-color: #032729;
+    color: #39D6C5;
+    border-radius: 20px 20px 20px 0;
+}
+
+
+
+.bubble {
+    padding: 16px;
+    text-shadow: 0 0  20px rgba(0, 0, 0, 0.5);
+    max-width: 40%;
+}
