@@ -7,13 +7,14 @@
 </div>
 <button type="button" class="new-chat" (click)="create()">+ New chat...</button>
 <ul>
-  @for (chat of chats(); track $index) {
+  @for (chat of chats(); track chat.id) {
     <li>
       <app-chat-history-item
-        [title]="chat"
-        [selected]="selectedIndex() === $index"
-        (titleChange)="rename($index, $event)"
-        (selectedChange)="select($index)"
+        [title]="chat.title"
+        [selected]="selectedId() === chat.id"
+        (titleChange)="rename(chat.id, $event)"
+        (selectedChange)="select(chat.id)"
+        (deleted)="remove(chat.id)"
       />
     </li>
   }

@@ -12,8 +12,11 @@ export class ChatHistoryItem {
   readonly selected = input(false);
   readonly titleChange = output<string>();
   readonly selectedChange = output<void>();
+  readonly deleted = output<void>();
 
   protected readonly editing = signal(false);
+  protected readonly menu = signal(false);
+  protected readonly menuAbove = signal(false);
   protected readonly draft = signal('');
   private ignoreBlur = false;
 
@@ -32,10 +35,59 @@ export class ChatHistoryItem {
       document.addEventListener('pointerdown', stop);
       onCleanup(() => document.removeEventListener('pointerdown', stop));
     });
+
+    effect((onCleanup) => {
+      if (!this.menu()) {
+        return;
+      }
+
+      const close = (event: PointerEvent) => {
+        if (!this.host.nativeElement.contains(event.target as Node)) {
+          this.menu.set(false);
+        }
+      };
+      const onKey = (event: KeyboardEvent) => {
+        if (event.key === 'Escape') {
+          this.menu.set(false);
+        }
+      };
+
+      document.addEventListener('pointerdown', close);
+      document.addEventListener('keydown', onKey);
+      onCleanup(() => {
+        document.removeEventListener('pointerdown', close);
+        document.removeEventListener('keydown', onKey);
+      });
+    });
   }
 
   protected choose(): void {
     this.selectedChange.emit();
+  }
+
+  protected toggleMenu(event: Event): void {
+    this.choose();
+    if (this.menu()) {
+      this.menu.set(false);
+      return;
+    }
+
+    const button = event.currentTarget as HTMLElement;
+    const list = this.host.nativeElement.closest('ul');
+    const buttonRect = button.getBoundingClientRect();
+    const listBottom = list?.getBoundingClientRect().bottom ?? window.innerHeight;
+    this.menuAbove.set(listBottom - buttonRect.bottom < 72);
+    this.menu.set(true);
+  }
+
+  protected rename(): void {
+    this.menu.set(false);
+    this.edit();
+  }
+
+  protected remove(): void {
+    this.menu.set(false);
+    this.deleted.emit();
   }
 
   protected edit(): void {

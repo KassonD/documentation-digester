@@ -77,10 +77,52 @@ input {
   pointer-events: none;
 }
 
+.item.menu-open {
+  z-index: 2;
+  overflow: visible;
+}
+
 .item:hover .edit,
-.item:focus-within .edit {
+.item:focus-within .edit,
+.item.menu-open .edit {
   opacity: 1;
   pointer-events: auto;
+}
+
+.menu {
+  position: absolute;
+  top: calc(100% + 0.15rem);
+  right: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 7rem;
+  padding: 0.25rem;
+  border-radius: 0.6rem;
+  background: #075254;
+  box-shadow: 0 0.4rem 1rem rgb(0 0 0 / 0.35);
+}
+
+.menu.above {
+  top: auto;
+  bottom: calc(100% + 0.15rem);
+}
+
+.menu button {
+  padding: 0.35rem 0.6rem;
+  border: 0;
+  border-radius: 0.4rem;
+  background: transparent;
+  color: #b4f5ed;
+  font-family: sans-serif;
+  font-size: 0.8125rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.menu button:hover,
+.menu button:focus-visible {
+  background: #138d86;
 }
 
 .edit svg {

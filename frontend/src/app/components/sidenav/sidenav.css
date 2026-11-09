@@ -1,12 +1,14 @@
 :host {
+  --sidenav-duration: 0.35s;
   display: block;
   box-sizing: border-box;
   width: 16rem;
   height: 100%;
+  min-height: 0;
   background: transparent;
   position: relative;
   overflow: hidden;
-  transition: width 0.35s ease;
+  transition: width var(--sidenav-duration) ease;
 }
 
 :host(.collapsed) {
@@ -73,11 +75,15 @@
 }
 
 .panel {
+  display: flex;
+  flex-direction: column;
   width: 16rem;
+  height: 100%;
 }
 
 .brand-bar {
   display: flex;
+  flex-shrink: 0;
   align-items: center;
   min-width: 0;
   min-height: 2.525rem;
@@ -100,13 +106,19 @@
 }
 
 ul {
+  flex: 1;
+  min-height: 0;
   margin: 0;
   padding: 0;
+  overflow-y: auto;
   list-style: none;
+  scrollbar-width: thin;
+  scrollbar-color: #075254 transparent;
 }
 
 .new-chat {
   display: block;
+  flex-shrink: 0;
   width: calc(100% - 1rem);
   margin: 0.5rem 0.5rem 1rem;
   padding: 0.35rem 0.35rem 0.35rem 0.75rem;
@@ -149,16 +161,16 @@ ul {
   background: transparent;
   cursor: pointer;
   transition:
-    top 0.35s ease,
-    left 0.35s ease,
-    width 0.35s ease,
-    height 0.35s ease,
-    transform 0.35s ease,
+    top var(--sidenav-duration) ease,
+    left var(--sidenav-duration) ease,
+    width var(--sidenav-duration) ease,
+    height var(--sidenav-duration) ease,
+    transform var(--sidenav-duration) ease,
     background 0.15s ease;
 }
 
 :host(.collapsed) .toggle {
-  top: 20px;
+  top: var(--dashboard-inset);
   left: 50%;
   width: calc(2.125rem * 1.25);
   height: calc(2.125rem * 1.25);
@@ -170,7 +182,7 @@ ul {
   height: auto;
   transform: scale(1.69);
   pointer-events: none;
-  transition: width 0.35s ease, filter 0.15s ease;
+  transition: width var(--sidenav-duration) ease, filter 0.15s ease;
 }
 
 :host(.collapsed) .toggle img {

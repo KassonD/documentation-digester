@@ -8,3 +8,7 @@ body {
   height: 100%;
   background-color: #032729;
 }
+
+:root {
+  --dashboard-inset: 20px;
+}
