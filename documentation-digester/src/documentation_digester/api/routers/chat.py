@@ -1,30 +1,26 @@
-from fastapi import APIRouter
-from pydantic import BaseModel
+from chromadb import Embeddings
+from documentation_digester.service.retrieval import answer_from_docs
+from fastapi import APIRouter, Depends, Request
+from documentation_digester.api.schemas import ChatResponse,QuestionRequest
+from langchain_core.language_models import BaseChatModel
 
 router = APIRouter(prefix="/chat",tags=["Chat"])
 
-class QuestionRequest(BaseModel):
-    question: str
 
-class Source(BaseModel):
-    title: str
-    source_path: str
+def get_llm_model(request: Request) -> BaseChatModel:
+    return request.app.state.llm
 
-class ChatResponse(BaseModel):
-    answer: str
-    source: list[Source]
+def get_embeddings(request: Request) -> Embeddings:
+    return request.app.state.embeddings
 
 # mock response for now
 @router.post("", response_model=ChatResponse)
-def ask(body: QuestionRequest):
-    return ChatResponse(
-        answer=f"this is a fake answer to: {body.question}",
-        source=[
-            Source(
-                title = "A Fake Source",
-                source_path ="project/fake_source.html"
-            )
-        ],
-    )
+def ask(
+    body: QuestionRequest,
+    llm: BaseChatModel = Depends(get_llm_model),
+    embeddings: BaseChatModel = Depends(get_embeddings),
+    ):
+    return answer_from_docs(body.question,llm,embeddings)
+    
 
 
