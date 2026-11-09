@@ -18,18 +18,12 @@ async def lifespan(app: FastAPI):
         temperature=0,
         keep_alive="30m",
     )
-    # embeddings takes an integer in seconds, strings won't work 
-    app.state.embeddings = OllamaEmbeddings(
-        model=settings.OLLAMA_EMBEDDING_MODEL,
-        base_url=settings.OLLAMA_BASE_URL,
-        keep_alive=1800,
-    )
+   
 
     yield
 
     # Application shutdown
     app.state.llm = None
-    app.state.embeddings = None
 
 app = FastAPI(lifespan=lifespan)
 app.include_router(chat.router)
