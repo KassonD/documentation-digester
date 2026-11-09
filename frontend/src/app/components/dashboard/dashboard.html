@@ -1,6 +1,10 @@
 <main class="dashboard">
-    <div class="container">
-        <app-welcome-message></app-welcome-message>
-        <app-chat-bar></app-chat-bar>
+    <div class="container" [class.chat-active]="chatStarted"> 
+        @if (!chatStarted) {
+            <app-welcome-message></app-welcome-message>
+        } 
+        <app-chat-bar
+            (questionSubmitted)="onQuestionSubmitted($event)">
+        </app-chat-bar>
     </div>
 </main>

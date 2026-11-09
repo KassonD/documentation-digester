@@ -1,6 +1,6 @@
 <div class="chat-bar-container">
-  <input type="text" class="chat-input" placeholder="Type a question...">
-  <button type="submit" class="send-btn">
+  <input type="text" class="chat-input" placeholder="Type a question..." [(ngModel)]="question" (keydown.enter)="sendQuestion()">
+  <button type="submit" class="send-btn" (click)="sendQuestion()">
     <!-- SVG Send Icon -->
     <svg viewBox="0 0 24 24" width="24" height="24">
       <path fill="currentColor" d="M2,21L23,12L2,3V10L17,12L2,14V21Z" />
