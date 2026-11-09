@@ -1,7 +1,6 @@
-from documentation_digester.api.schemas import ChatResponse, QuestionRequest, Source
+from documentation_digester.api.schemas import ChatResponse, Source
 from documentation_digester.digester.vector_store import search_chunks
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_core.language_models import BaseChatModel
 from langchain_core.output_parsers import StrOutputParser
 from documentation_digester.digester.embeddings import embed_query
 
