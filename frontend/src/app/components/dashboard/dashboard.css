@@ -1,5 +1,10 @@
-.dashboard {
-    min-height: 100vh;
-    background: linear-gradient(#032729, #075254);
+:host {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+}
 
+.dashboard {
+  flex: 1;
+  background: linear-gradient(#032729, #075254);
 }
