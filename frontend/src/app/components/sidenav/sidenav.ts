@@ -8,12 +8,16 @@ import { ChatHistoryItem } from '../chat-history-item/chat-history-item';
   styleUrl: './sidenav.css',
   host: {
     '[class.collapsed]': '!open()',
+    '[class.animating]': 'animating()',
   },
 })
 export class Sidenav {
+  private animationTimer?: ReturnType<typeof setTimeout>;
+
   protected readonly chats = signal(['Project setup', 'API notes', 'Open questions']);
   protected readonly selectedIndex = signal<number | null>(null);
   protected readonly open = signal(true);
+  protected readonly animating = signal(false);
 
   protected select(index: number): void {
     this.selectedIndex.set(index);
@@ -25,7 +29,10 @@ export class Sidenav {
   }
 
   protected toggle(): void {
+    this.animating.set(true);
     this.open.update((open) => !open);
+    clearTimeout(this.animationTimer);
+    this.animationTimer = setTimeout(() => this.animating.set(false), 350);
   }
 
   protected rename(index: number, title: string): void {

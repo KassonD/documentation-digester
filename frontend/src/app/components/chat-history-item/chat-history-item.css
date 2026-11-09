@@ -17,20 +17,20 @@
 
 .item:hover,
 .item:focus-within {
-  background: #1e2a27;
+  background: #075254;
 }
 
 .item.selected,
 .item.selected:hover,
 .item.selected:focus-within {
-  background: #34564f;
+  background: #138d86;
 }
 
 .title,
 input {
   min-width: 0;
   background: transparent;
-  color: #fff;
+  color: #b4f5ed;
   font-family: sans-serif;
   font-size: 0.8125rem;
   text-align: left;
@@ -53,7 +53,7 @@ input {
   height: calc(1.337rem - 0.1rem - 2px);
   max-width: calc(100% - 1rem - 2px);
   padding: 0.05rem 0.3rem;
-  border: 1px solid #e8eeee;
+  border: 1px solid #b4f5ed;
   border-radius: 0.2rem;
   outline: none;
 }
@@ -71,7 +71,7 @@ input {
   border: 0;
   border-radius: 999px;
   background: transparent;
-  color: #fff;
+  color: #b4f5ed;
   cursor: pointer;
   opacity: 0;
   pointer-events: none;
