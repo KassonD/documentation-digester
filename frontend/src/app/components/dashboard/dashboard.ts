@@ -13,7 +13,6 @@ export class Dashboard {
   chatStarted = false;
 
   onQuestionSubmitted(question: string) {
-    console.log('Question received:', question);
     this.chatStarted = true;
   }
   

@@ -20,9 +20,21 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  transition: width 0.3s ease;
+}
+
+.container app-chat-bar {
+  width: 600px;
+  max-width: 100%;
+  transition: width 0.3s ease;
 }
 
 .container.chat-active {
   justify-content: flex-end;
-  padding-bottom: 30px;
+  padding: 30px;
+}
+
+.container.chat-active app-chat-bar {
+    width: 900px;
+    max-width: 100%;
 }
