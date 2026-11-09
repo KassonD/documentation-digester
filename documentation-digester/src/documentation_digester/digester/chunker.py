@@ -40,7 +40,8 @@ def chunk() -> list[Document]:
 
     for file_path in _CLEAN_HTML_DIR_PATH.rglob("*.html"):
         if file_path.is_file():
-            with open(file_path, "r") as file:
+            with open(file=file_path, mode="r", encoding="utf-8") as file:
+                print(file.name)
                 content = file.read()
                 documents = _split_text(content)
                 chunked_documents = _chunk_documents(documents)
@@ -49,8 +50,9 @@ def chunk() -> list[Document]:
 
     return chunks
 
-# dlist = chunk()
+if __name__ == "__main__":
+    dlist = chunk()
 
-# for d in dlist:
-#     print("---\n", d.page_content)
-#     print(d.metadata)
+    for d in dlist:
+        print("---\n", d.page_content)
+        print(d.metadata)
