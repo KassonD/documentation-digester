@@ -9,7 +9,7 @@
   background: linear-gradient(#075254, #138D86);
   border-radius: 50px;
   margin: 20px;
-
+  margin-left: 0px;
   display: flex;
   flex-direction: column;
 }
