@@ -1,3 +1,4 @@
+import uuid
 from langchain_core.documents import Document
 from langchain_text_splitters import HTMLHeaderTextSplitter, RecursiveCharacterTextSplitter
 from pathlib import Path
@@ -23,16 +24,27 @@ def _chunk_documents(documents: list[Document]) -> list[Document]:
     recursive_splitter = RecursiveCharacterTextSplitter(chunk_size=_CHUNK_SIZE, chunk_overlap=_CHUNK_OVERLAP)
     return recursive_splitter.split_documents(documents)
 
+def _set_metadata(chunks: list[Document], file_name: str):
+    document_id = uuid.uuid4()
+
+    for index, chunk in enumerate(chunks):
+        chunk.metadata.update({
+            "document_id": document_id,
+            "file_name": file_name,
+            "chunk_index": index
+        })
+
 # Returns documents created using the clean html files
 def chunk() -> list[Document]:
     chunks = []
 
-    for file_path in _CLEAN_HTML_DIR_PATH.iterdir():
+    for file_path in _CLEAN_HTML_DIR_PATH.rglob("*.html"):
         if file_path.is_file():
             with open(file_path, "r") as file:
                 content = file.read()
                 documents = _split_text(content)
                 chunked_documents = _chunk_documents(documents)
+                _set_metadata(chunks=chunked_documents, file_name=file.name)
                 chunks.extend(chunked_documents)
 
     return chunks

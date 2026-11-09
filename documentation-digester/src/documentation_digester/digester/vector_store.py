@@ -9,7 +9,7 @@ CHROMA_PATH = PROJECT_ROOT / "data" / "chroma"
 COLLECTION_NAME = "documentation"
 
 def get_collection():
-    """ 
+    """
     Open the Chroma database and get the documentation collection.
 
     If the collection doesn't exist, create it. The database is saved
@@ -44,7 +44,7 @@ def upsert_chunks( ids: list[str], texts: list[str], embeddings: list[list[float
     if not (len(ids) == len(texts) == len(embeddings) == len(metadatas)):
         raise ValueError("All input lists must have the same length.")
 
-    if not isinstance(batch_size, int) or batch_size < 1:
+    if type(batch_size) is not int or batch_size < 1:
         raise ValueError("batch_size must be a positive integer.")
 
     if not ids:
@@ -110,9 +110,9 @@ def delete_document(source_path: str) -> None:
     This removes the chunks from Chroma, not the original source file.
     """
     # Reject an empty or whitespace-only path.
-    if not source_path.strip():
+    if not isinstance(source_path, str) or not source_path.strip():
         raise ValueError("source_path cannot be empty.")
-    
+
     collection = get_collection()
 
     # Only delete chunks whose source_path matches this document.
@@ -122,8 +122,8 @@ def delete_document(source_path: str) -> None:
 
 
 def replace_document(source_path: str, ids: list[str], texts: list[str], embeddings: list[list[float]], metadatas: list[dict], ) -> None:
-    """Store a document's new chunks and remove it's outdated chunks.
-    
+    """Store a document's new chunks and remove its outdated chunks.
+
     Every incoming chunk must belong to this document.
     Use delete_document() if there are no remaining chunks.
     """
@@ -131,7 +131,7 @@ def replace_document(source_path: str, ids: list[str], texts: list[str], embeddi
         raise ValueError("source_path cannot be empty.")
 
     if not (len(ids) == len(texts) == len(embeddings) == len(metadatas)):
-        raise ValueError("All input lists must hvae the same length.")
+        raise ValueError("All input lists must have the same length.")
 
     if not ids:
         raise ValueError("Use delete_document() to remove all chunks.")
@@ -143,7 +143,7 @@ def replace_document(source_path: str, ids: list[str], texts: list[str], embeddi
             or metadata.get("source_path") != source_path
         ):
             raise ValueError("Every chunk must belong to this document.")
-    
+
     if any(
         not isinstance(chunk_id, str) or not chunk_id.strip()
         for chunk_id in ids
@@ -152,7 +152,7 @@ def replace_document(source_path: str, ids: list[str], texts: list[str], embeddi
 
     if len(set(ids)) != len(ids):
         raise ValueError("Chunk IDs must be unique within the input.")
-    
+
     collection = get_collection()
     client = chromadb.PersistentClient(path=str(CHROMA_PATH))
     batch_size = min(256, client.get_max_batch_size())
@@ -191,3 +191,50 @@ def replace_document(source_path: str, ids: list[str], texts: list[str], embeddi
         collection.delete(
             ids=outdated_ids[start:start + batch_size],
         )
+
+def search_chunks(query_embedding: list[float], top_k: int = 5,) -> list[dict]:
+    """
+    Return the closest stored chunks for a query embedding.
+
+    The query must use the same embedding model as the stored chunks.
+    Each match includes its ID, text, metadata, and distance.
+    A smaller distance means a closer match.
+    """
+    if type(top_k) is not int or top_k < 1:
+        raise ValueError("top_k must be a positive integer.")
+    
+    if not query_embedding:
+        raise ValueError("The query embedding cannot be empty.")
+    
+    if any(
+        type(value) not in (int, float) or not isfinite(value)
+        for value in query_embedding
+    ):
+        raise ValueError("The query embedding must contain finite numbers.")
+    
+    collection = get_collection()
+
+    # Return no matches if nothing has been indexed.
+    count = collection.count()
+    if count == 0:
+        return []
+    
+    # Chroma expects a list of query vectors, even for one query.
+    results = collection.query(
+        query_embeddings=[query_embedding],
+        n_results=min(top_k, count),
+        include=["documents", "metadatas", "distances"],
+    )
+
+    # Index 0 selects the results for our single query.
+    matches = []
+
+    for index, chunk_id in enumerate(results["ids"][0]):
+        matches.append({
+            "id": chunk_id,
+            "text": results["documents"][0][index],
+            "metadata": results["metadatas"][0][index],
+            "distance": results["distances"][0][index],
+        })
+    
+    return matches
