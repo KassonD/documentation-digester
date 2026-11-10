@@ -23,6 +23,36 @@
   transition: width 0.3s ease;
 }
 
+.chat-title {
+  color: #B4F5ED;
+  font-size: 25px;
+  font-family: Georgia;
+  text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+
+  width: 900px;
+  max-width: 100%;
+  margin: 50px;
+  text-align: center; 
+}
+
+.chat-title::after {
+  content: "";
+  display: block;
+  width: 600px;
+  height: 2px;
+
+  background: linear-gradient(
+    to right,
+    transparent,
+    #B4F5ED,
+    transparent
+  );
+
+  margin: 10px auto 0;
+}
+
+
+
 .container app-chat-bar {
   width: 600px;
   max-width: 100%;

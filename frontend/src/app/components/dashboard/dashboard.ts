@@ -13,6 +13,7 @@ import { MessagesList } from '../messages-list/messages-list';
 export class Dashboard {
 
   chatStarted = false;
+  currentChatName: string = 'New Chat';
 
   onQuestionSubmitted(question: string) {
     this.chatStarted = true;

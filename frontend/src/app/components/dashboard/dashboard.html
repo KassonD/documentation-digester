@@ -4,6 +4,9 @@
             <app-welcome-message></app-welcome-message>
         } 
         @else {
+            <div class="divisor">
+                <h2 class="chat-title">{{ currentChatName }}</h2>
+            </div>
             <app-messages-list></app-messages-list>
         }
         <app-chat-bar
