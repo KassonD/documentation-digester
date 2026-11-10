@@ -1,10 +1,12 @@
 import { Component, input} from '@angular/core';
 import { Message } from '../../contracts/message';
 import { DatePipe } from '@angular/common';
+import { Badges } from '../badges/badges';
+import { CopyBadge } from '../copy-badge/copy-badge';
 
 @Component({
   selector: 'app-chat-bubble',
-  imports: [DatePipe],
+  imports: [DatePipe, Badges, CopyBadge],
   templateUrl: './chat-bubble.html',
   styleUrl: './chat-bubble.css',
 })

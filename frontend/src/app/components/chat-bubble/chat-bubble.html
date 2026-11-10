@@ -5,20 +5,16 @@
             <time class="time" [attr.datetime]="message().timestamp | date: 'yyyy-MM-ddTHH:mm:ss'">
                 {{ message().timestamp | date: 'h:mm a' }}
             </time>
-            <!-- <time class="time">
-                {{ message().source}}
-            </time> -->
-            <!-- @if (message().source) {()
-                <span class="source" [title]="message().source">
-                    @for (part of sourceParts(message().source); track $index; let last = $last) {
-                        <span>{{ last ? part : part + '/' }}</span>
-                    }
-                </span>
-            } -->
         </div>
     }
-    <div class="bubble">
-        <p>{{message().message}}</p>
+    <div class="message-wrapper">
+        <div class="bubble">
+            <p>{{message().message}}</p>
+            @if (!message().isPrompt) {
+                <app-badges />
+            }
+        </div>
+        <app-copy-badge [message]="message().message" />
     </div>
     @if (message().isPrompt) {
         <div class="info right">
