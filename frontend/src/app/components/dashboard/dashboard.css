@@ -46,10 +46,6 @@
   font-size: 25px;
   font-family: Georgia;
   text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
-
-  width: 900px;
-  max-width: 100%;
-  margin: 50px;
   text-align: center; 
 }
 
@@ -66,7 +62,7 @@
     transparent
   );
 
-  margin: 10px auto 0;
+  margin: 10px auto 20px;
 }
 
 

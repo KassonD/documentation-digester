@@ -1,4 +1,9 @@
 <div class="thread">
+    @for (message of messageList; track message.timestamp) {
+        <app-chat-bubble [message]="message"></app-chat-bubble>
+    }
+</div>
+<!-- <div class="thread">
     <div class="gutter gutter-left" aria-hidden="true"></div>
     <div class="gutter gutter-right" aria-hidden="true"></div>
     <div class="messages">
@@ -29,4 +34,4 @@
             </div>
         }
     </div>
-</div>
+</div> -->

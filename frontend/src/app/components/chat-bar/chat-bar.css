@@ -23,6 +23,7 @@
     transition: border-color 0.2s ease;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
     background-color: #B4F5ED;
+    border: none;
 }
 
 .chat-input:focus {

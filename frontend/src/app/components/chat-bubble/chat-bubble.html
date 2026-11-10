@@ -1,6 +1,30 @@
 
-<div [class]="'container ' + (isPrompt() ? 'right' : 'left')">
+<div [class]="'container ' + (message().isPrompt ? 'right' : 'left')">
+    @if (!message().isPrompt) {
+        <div class="info left">
+            <time class="time" [attr.datetime]="message().timestamp | date: 'yyyy-MM-ddTHH:mm:ss'">
+                {{ message().timestamp | date: 'h:mm a' }}
+            </time>
+            <!-- <time class="time">
+                {{ message().source}}
+            </time> -->
+            <!-- @if (message().source) {()
+                <span class="source" [title]="message().source">
+                    @for (part of sourceParts(message().source); track $index; let last = $last) {
+                        <span>{{ last ? part : part + '/' }}</span>
+                    }
+                </span>
+            } -->
+        </div>
+    }
     <div class="bubble">
-        <p>{{message()}}</p>
+        <p>{{message().message}}</p>
     </div>
+    @if (message().isPrompt) {
+        <div class="info right">
+            <time class="time" [attr.datetime]="message().timestamp | date: 'yyyy-MM-ddTHH:mm:ss'">
+                {{ message().timestamp | date: 'h:mm a' }}
+            </time>
+        </div>
+    }
 </div>

@@ -27,10 +27,27 @@
     border-radius: 20px 20px 20px 0;
 }
 
-
-
 .bubble {
     padding: 16px;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
     max-width: 40%;
+}
+
+.info {
+    display: flex;
+  
+    width: 150px;
+    padding: 8px;
+}
+
+.time,
+.source {
+  text-shadow: 0 1px 2px rgba(3, 39, 41, 0.85);
+}
+
+.time {
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: rgba(180, 245, 237, 0.7);
+  white-space: nowrap;
 }

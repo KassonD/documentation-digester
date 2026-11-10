@@ -9,6 +9,13 @@
 }
 
 .thread {
+  width: stretch;
+  max-height: 500px;
+  overflow-y: auto;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
+/* .thread {
   flex: 1;
   min-height: 0;
   width: 100%;
@@ -17,7 +24,7 @@
   grid-template-rows: minmax(100%, auto);
   overflow-x: hidden;
   overflow-y: auto;
-}
+} */
 
 .gutter {
   grid-row: 1;

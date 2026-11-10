@@ -34,6 +34,12 @@ export class MessagesList {
       timestamp: Date.now() - 60_000,
       source: "getting_started/introduction.rst",
     },
+    {
+      message: "My name is Godot Docbot!",
+      isPrompt: false,
+      timestamp: Date.now() - 60_000,
+      source: "getting_started/introduction.rst",
+    },
   ];
 
   sourceParts(source: string): string[] {
