@@ -2,5 +2,6 @@
 export interface Message {
     message: string,
     isPrompt: boolean,
-    timestamp: number
+    timestamp: number,
+    source?: string,
 }
