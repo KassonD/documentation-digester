@@ -6,7 +6,7 @@
 
 .dashboard {
   flex: 1;
-  background: linear-gradient(#075254, #138D86);
+  background: linear-gradient(var(--deep), var(--mid));
   border-radius: 50px;
   margin: 20px;
   margin-left: 0px;
@@ -42,7 +42,7 @@
 }
 
 .chat-title {
-  color: #B4F5ED;
+  color: var(--mist);
   font-size: 25px;
   font-family: Georgia;
   text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
@@ -58,7 +58,7 @@
   background: linear-gradient(
     to right,
     transparent,
-    #B4F5ED,
+    var(--mist),
     transparent
   );
 

@@ -1,9 +1,31 @@
-import { Component, ElementRef, inject, signal } from '@angular/core';
+import { Component, ElementRef, effect, inject, signal, viewChild } from '@angular/core';
 import { ChatHistoryItem } from '../chat-history-item/chat-history-item';
+
+const themeKey = 'theme';
 
 interface Chat {
   id: number;
   title: string;
+}
+
+function readNebula(): boolean {
+  try {
+    return localStorage.getItem(themeKey) === 'nebula';
+  } catch {
+    return false;
+  }
+}
+
+function storeTheme(nebula: boolean): void {
+  try {
+    if (nebula) {
+      localStorage.setItem(themeKey, 'nebula');
+    } else {
+      localStorage.removeItem(themeKey);
+    }
+  } catch {
+    // Storage can be blocked. The in-page toggle still works.
+  }
 }
 
 @Component({
@@ -18,6 +40,7 @@ interface Chat {
 })
 export class Sidenav {
   private readonly host = inject(ElementRef<HTMLElement>);
+  private readonly settingsRoot = viewChild<ElementRef<HTMLElement>>('settingsRoot');
   private animationTimer?: ReturnType<typeof setTimeout>;
   private nextId = 3;
 
@@ -29,6 +52,45 @@ export class Sidenav {
   protected readonly selectedId = signal<number | null>(null);
   protected readonly open = signal(true);
   protected readonly animating = signal(false);
+  protected readonly settingsMenu = signal(false);
+  protected readonly theme = signal(readNebula());
+
+  constructor() {
+    effect(() => {
+      const nebula = this.theme();
+      if (nebula) {
+        document.documentElement.dataset['theme'] = 'nebula';
+      } else {
+        delete document.documentElement.dataset['theme'];
+      }
+      storeTheme(nebula);
+    });
+
+    effect((onCleanup) => {
+      if (!this.settingsMenu()) {
+        return;
+      }
+
+      const close = (event: PointerEvent) => {
+        const root = this.settingsRoot()?.nativeElement;
+        if (!root?.contains(event.target as Node)) {
+          this.settingsMenu.set(false);
+        }
+      };
+      const onKey = (event: KeyboardEvent) => {
+        if (event.key === 'Escape') {
+          this.settingsMenu.set(false);
+        }
+      };
+
+      document.addEventListener('pointerdown', close);
+      document.addEventListener('keydown', onKey);
+      onCleanup(() => {
+        document.removeEventListener('pointerdown', close);
+        document.removeEventListener('keydown', onKey);
+      });
+    });
+  }
 
   protected select(id: number): void {
     this.selectedId.set(id);
@@ -43,8 +105,19 @@ export class Sidenav {
   protected toggle(): void {
     this.animating.set(true);
     this.open.update((open) => !open);
+    if (!this.open()) {
+      this.settingsMenu.set(false);
+    }
     clearTimeout(this.animationTimer);
     this.animationTimer = setTimeout(() => this.animating.set(false), this.animationMs());
+  }
+
+  protected toggleSettings(): void {
+    this.settingsMenu.update((open) => !open);
+  }
+
+  protected toggleTheme(): void {
+    this.theme.update((on) => !on);
   }
 
   protected rename(id: number, title: string): void {
