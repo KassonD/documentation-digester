@@ -12,6 +12,24 @@
   margin-left: 0px;
   display: flex;
   flex-direction: column;
+
+  position: relative;
+  isolation: isolate;
+}
+
+.dashboard::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background-image: url('bg.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 800px;
+
+  opacity: 0.15;
+  pointer-events: none;
+  z-index: -1;
 }
 
 .container {
