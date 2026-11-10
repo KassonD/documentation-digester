@@ -6,8 +6,8 @@
 }
 
 .badge {
-    background-color: #138D86;
-    color: #B4F5ED;
+    background-color: var(--mid);
+    color: var(--mist);
     border: 1px solid rgba(180, 245, 237, 0.3);
     border-radius: 12px;
 

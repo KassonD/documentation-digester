@@ -1,7 +1,7 @@
 .copy-btn {
     background: transparent;
     border: none;
-    color: #B4F5ED;
+    color: var(--mist);
 
     font-size: 12px;
     padding: 5px 8px;
