@@ -1,0 +1,23 @@
+.badges-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 10px;
+}
+
+.badge {
+    background-color: var(--mid);
+    color: var(--mist);
+    border: 1px solid rgba(180, 245, 237, 0.3);
+    border-radius: 12px;
+
+    padding: 4px 10px;
+    font-size: 11px;
+    cursor: pointer;
+
+    transition: background-color 0.2s ease;
+}
+
+.badge:hover {
+    background-color: rgba(180, 245, 237, 0.3);
+}

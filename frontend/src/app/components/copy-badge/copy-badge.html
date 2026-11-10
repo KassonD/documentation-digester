@@ -1,0 +1,8 @@
+<button
+    class="copy-btn"
+    (click)="copyMessage()"
+    [title]="copied() ? 'Copied!' : 'Copy message'">
+
+    {{ copied() ? '✓ Copied!' : '⧉ Copy' }}
+
+</button>
