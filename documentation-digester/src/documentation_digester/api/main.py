@@ -17,6 +17,7 @@ async def lifespan(app: FastAPI):
         base_url=settings.OLLAMA_BASE_URL,
         temperature=0,
         keep_alive="30m",
+        reasoning=False,
     )
    
 
