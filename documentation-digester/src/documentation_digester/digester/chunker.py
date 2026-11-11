@@ -1,6 +1,7 @@
 import uuid
 from langchain_core.documents import Document
 from langchain_text_splitters import HTMLHeaderTextSplitter, RecursiveCharacterTextSplitter
+# from langchain_experimental.text_splitter import SemanticChunker
 from pathlib import Path
 
 _CHUNK_SIZE = 1000
