@@ -1,5 +1,13 @@
 <div class="chat-bar-container">
-  <input type="text" class="chat-input" placeholder="Type a question..." [(ngModel)]="question" (keydown.enter)="sendQuestion()">
+    <textarea
+    #chatInput
+    class="chat-input"
+    placeholder="Type a question..."
+    [(ngModel)]="question"
+    (input)="resizeTextarea()"
+    (keydown.enter)="handleEnter($event)"
+    rows="1">
+  </textarea>
   <button type="submit" class="send-btn" (click)="sendQuestion()">
     <!-- SVG Send Icon -->
     <svg viewBox="0 0 24 24" width="24" height="24">
