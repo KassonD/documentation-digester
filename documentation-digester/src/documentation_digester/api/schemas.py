@@ -7,7 +7,8 @@ class QuestionRequest(BaseModel):
 
     # Optional for a new conversation.
     # The client should reuse it for follow-up questions.
-    session_id: str | None = Field(default=None, max_length=128)
+    session_id: str | None = Field(default=None, max_length=128, min_length=1)
+    
 
 
 class Source(BaseModel):
