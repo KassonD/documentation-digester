@@ -21,7 +21,7 @@ export class MessagesList {
       message: "Hi!",
       isPrompt: false,
       timestamp: Date.now() - 150_000,
-      source: "classes/class_node.rst",
+      sources: ["classes/class_node.rst"],
     },
     {
       message: "What is your name",
@@ -32,18 +32,13 @@ export class MessagesList {
       message: "My name is Godot Docbot!",
       isPrompt: false,
       timestamp: Date.now() - 60_000,
-      source: "getting_started/introduction.rst",
+      sources: ["getting_started/introduction.rst"],
     },
     {
       message: "My name is Godot Docbot!",
       isPrompt: false,
       timestamp: Date.now() - 60_000,
-      source: "getting_started/introduction.rst",
+      sources: ["getting_started/introduction.rst"],
     },
   ];
-
-  sourceParts(source: string): string[] {
-    return source.split('/').filter((part) => part.length > 0);
-  }
-
 }

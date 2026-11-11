@@ -11,7 +11,9 @@
         <div class="bubble">
             <p>{{message().message}}</p>
             @if (!message().isPrompt) {
-                <app-badges />
+                @for (source of message().sources; track source) {
+                    <app-badges [fileName]="source" />
+                }
             }
         </div>
         <app-copy-badge [message]="message().message" />

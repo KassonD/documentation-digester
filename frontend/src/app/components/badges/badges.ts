@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-badges',
@@ -6,4 +6,7 @@ import { Component } from '@angular/core';
   templateUrl: './badges.html',
   styleUrl: './badges.css',
 })
-export class Badges {}
+
+export class Badges {
+  fileName = input<string>("N/A");
+}
