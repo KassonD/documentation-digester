@@ -1,5 +1,5 @@
 <div class="thread">
-    @for (message of messageList; track message.timestamp) {
+    @for (message of chatService.messages(); track message.timestamp) {
         <app-chat-bubble [message]="message"></app-chat-bubble>
     }
 </div>
