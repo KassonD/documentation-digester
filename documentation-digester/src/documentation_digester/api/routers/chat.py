@@ -32,7 +32,7 @@ def ask(
     return answer_from_docs(body.question, llm, session_id)
 
 
-@router.post("/stream", tags=["chat-stream"])
+@router.post("/stream")
 def ask_stream(
     body: QuestionRequest,
     llm: BaseChatModel = Depends(get_llm_model),
