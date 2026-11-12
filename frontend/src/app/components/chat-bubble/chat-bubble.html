@@ -1,0 +1,32 @@
+
+<div [class]="'container ' + (message().isPrompt ? 'right' : 'left')">
+    @if (!message().isPrompt) {
+        <div class="info left">
+            <time class="time" [attr.datetime]="message().timestamp | date: 'yyyy-MM-ddTHH:mm:ss'">
+                {{ message().timestamp | date: 'h:mm a' }}
+            </time>
+        </div>
+    }
+    <div class="message-wrapper">
+        <div class="bubble">
+            @if (message().isPrompt) {
+                <div class="text prompt">{{ message().message }}</div>
+            } @else {
+                <div class="text" [innerHTML]="html()"></div>
+            }
+            @if (!message().isPrompt) {
+                @for (source of message().sources ?? []; track $index) {
+                    <app-badges [fileName]="source" />
+                }
+            }
+        </div>
+        <app-copy-badge [message]="message().message" />
+    </div>
+    @if (message().isPrompt) {
+        <div class="info right">
+            <time class="time" [attr.datetime]="message().timestamp | date: 'yyyy-MM-ddTHH:mm:ss'">
+                {{ message().timestamp | date: 'h:mm a' }}
+            </time>
+        </div>
+    }
+</div>

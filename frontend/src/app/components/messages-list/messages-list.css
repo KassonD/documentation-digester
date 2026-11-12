@@ -1,0 +1,28 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 0;
+  box-sizing: border-box;
+}
+
+.thread {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
+/* Empty flex item that grows, so a short thread sits on the bottom instead of the top. */
+.thread::before {
+  content: "";
+  margin-top: auto;
+}
+
+.thread > * {
+  flex-shrink: 0;
+}

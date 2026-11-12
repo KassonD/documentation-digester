@@ -1,0 +1,157 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    padding: 16px;
+    padding-bottom: 60px;
+}
+
+.right {
+    justify-content: right;
+}
+.right .bubble {
+    background-color: var(--accent);
+    color: var(--bg);
+    border-radius: 20px 20px 0 20px;
+}
+
+.left {
+    justify-content: left;
+}
+.left .bubble {
+    background-color: var(--bg);
+    color: var(--accent);
+    border-radius: 20px 20px 20px 0;
+}
+
+.bubble {
+    padding: 16px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+    width: max-content;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.text.prompt {
+    white-space: pre-wrap;
+}
+
+/* innerHTML is not stamped with this component's attribute, so these rules need ::ng-deep. */
+:host ::ng-deep .text {
+    min-width: 0;
+    max-width: 100%;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+}
+
+:host ::ng-deep .text p,
+:host ::ng-deep .text ul,
+:host ::ng-deep .text ol,
+:host ::ng-deep .text pre,
+:host ::ng-deep .text blockquote {
+    margin: 0.55em 0;
+}
+
+:host ::ng-deep .text > :first-child {
+    margin-top: 0;
+}
+
+:host ::ng-deep .text > :last-child {
+    margin-bottom: 0;
+}
+
+:host ::ng-deep .text ul,
+:host ::ng-deep .text ol {
+    padding-left: 1.25em;
+}
+
+:host ::ng-deep .text h1,
+:host ::ng-deep .text h2,
+:host ::ng-deep .text h3,
+:host ::ng-deep .text h4 {
+    font-size: 1em;
+    font-weight: 700;
+    margin: 0.75em 0 0.3em;
+}
+
+:host ::ng-deep .text a {
+    color: var(--mist);
+    text-decoration: underline;
+}
+
+:host ::ng-deep .text blockquote {
+    padding-left: 0.75em;
+    border-left: 3px solid var(--accent);
+    color: var(--mist);
+}
+
+:host ::ng-deep .text hr {
+    border: 0;
+    border-top: 1px solid rgb(from var(--mist) r g b / 0.35);
+    margin: 0.8em 0;
+}
+
+:host ::ng-deep .text code {
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-size: 0.82em;
+    padding: 0.12em 0.45em;
+    border-radius: 6px;
+    background: var(--deep);
+    color: var(--mist);
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+}
+
+:host ::ng-deep .text pre {
+    overflow-x: auto;
+    max-width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: var(--deep);
+}
+
+:host ::ng-deep .text pre,
+:host ::ng-deep .text pre code {
+    overflow-wrap: normal;
+    white-space: pre;
+}
+
+:host ::ng-deep .text pre code {
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
+    box-decoration-break: slice;
+    -webkit-box-decoration-break: slice;
+}
+
+.info {
+    display: flex;
+  
+    width: var(--time-column);
+    padding: 8px;
+}
+
+.time {
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--mist);
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgb(from var(--bg) r g b / 0.85);
+}
+
+.message-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    width: max-content;
+    max-width: 50%;
+    min-width: 0;
+}
+
+.container.right .message-wrapper {
+    align-items: flex-end;
+}

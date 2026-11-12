@@ -1,0 +1,16 @@
+<main class="dashboard">
+    <div class="container" [class.chat-active]="chatStarted"> 
+        @if (!chatStarted) {
+            <app-welcome-message (questionSelected)="onQuestionSubmitted($event)"></app-welcome-message>
+        } 
+        @else {
+            <div class="divisor">
+                <h2 class="chat-title">{{ currentChatName }}</h2>
+            </div>
+            <app-messages-list></app-messages-list>
+        }
+        <app-chat-bar
+            (questionSubmitted)="onQuestionSubmitted($event)">
+        </app-chat-bar>
+    </div>
+</main>

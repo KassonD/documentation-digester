@@ -1,0 +1,8 @@
+<div #thread class="thread">
+    @for (message of chatService.messages(); track message.timestamp) {
+        <app-chat-bubble [message]="message"></app-chat-bubble>
+    }
+    @if (awaitingReply) {
+        <app-response-loader />
+    }
+</div>

@@ -1,0 +1,31 @@
+/* Each source is its own component. inline-flex lets badges share a row and wrap when they do not fit. */
+:host {
+    display: inline-flex;
+    max-width: 100%;
+    margin-right: 6px;
+}
+
+.badges-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 10px;
+}
+
+.badge {
+    background-color: var(--mid);
+    color: var(--mist);
+    border: 1px solid rgb(from var(--mist) r g b / 0.3);
+    border-radius: 12px;
+
+    padding: 4px 10px;
+    font-size: 11px;
+    cursor: pointer;
+    text-decoration: none;
+
+    transition: background-color 0.2s ease;
+}
+
+.badge:hover {
+    background-color: rgb(from var(--mist) r g b / 0.3);
+}

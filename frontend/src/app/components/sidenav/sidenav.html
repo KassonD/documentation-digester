@@ -1,0 +1,56 @@
+<div class="panel">
+<div class="brand-bar">
+  <button type="button" class="toggle" (click)="toggle()" [attr.aria-expanded]="open()" aria-label="Toggle sidebar">
+    <img src="/icon.png" alt="" />
+  </button>
+  <p class="brand">Godot Docbot</p>
+</div>
+<button type="button" class="new-chat" (click)="create()">+ New chat...</button>
+<ul>
+  @for (chat of chats(); track chat.id) {
+    <li>
+      <app-chat-history-item
+        [title]="chat.name"
+        [selected]="selectedId() === chat.id"
+        (titleChange)="rename(chat.id, $event)"
+        (selectedChange)="select(chat.id)"
+        (deleted)="remove(chat.id)"
+      />
+    </li>
+  }
+</ul>
+<div class="settings" #settingsRoot [class.menu-open]="settingsMenu()">
+  <button
+    type="button"
+    class="settings-button"
+    (click)="toggleSettings()"
+    aria-label="Settings"
+    aria-haspopup="menu"
+    [attr.aria-expanded]="settingsMenu()"
+  >
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"
+      />
+      <circle cx="12" cy="12" r="3" />
+    </svg>
+    Settings
+  </button>
+  @if (settingsMenu()) {
+    <div class="menu" role="menu">
+      <button
+        type="button"
+        class="theme"
+        role="menuitemcheckbox"
+        [attr.aria-checked]="theme()"
+        (click)="toggleTheme()"
+      >
+        <span>Theme</span>
+        <span class="switch" [class.on]="theme()" aria-hidden="true">
+          <span class="knob"></span>
+        </span>
+      </button>
+    </div>
+  }
+</div>
+</div>

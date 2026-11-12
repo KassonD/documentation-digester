@@ -1,0 +1,8 @@
+<div class="welcome">
+  <h1 class="message">Welcome! Ready when you are.</h1>
+  <div class="starters" aria-label="Suggested questions">
+    @for (question of starters; track question) {
+      <button type="button" class="starter" (click)="choose(question)">{{ question }}</button>
+    }
+  </div>
+</div>
