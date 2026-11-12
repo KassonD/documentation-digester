@@ -86,3 +86,79 @@ def make_chunks():
         )
 
     return build
+
+
+
+# ---------- fakes for the retrieval service and API ----------
+
+from langchain_core.messages import AIMessage, HumanMessage
+from langchain_core.runnables import RunnableLambda
+
+from documentation_digester.service import retrieval
+
+MATCHES = [
+    {"id": "1", "text": "Use connect() to link a signal.", "distance": 0.1,
+     "metadata": {"title": "Using signals", "source_path": "getting_started/signals.html"}},
+    {"id": "2", "text": "Custom signals are declared with the signal keyword.", "distance": 0.2,
+     "metadata": {"title": "Using signals", "source_path": "getting_started/signals.html"}},
+]
+REWRITE_MARKER = "Rewrite the latest question"
+
+
+class FakeHistory:
+    """Same shape the retrieval code reads: an object with a .messages list."""
+
+    def __init__(self):
+        self.messages = []
+
+
+class FakeServices:
+    """Stands in for the embedder, vector search, chat memory and LLM, and records every call."""
+
+    def __init__(self):
+        self.matches = MATCHES
+        self.answer = "Use connect()."
+        self.rewrite = "How do I connect a signal in code?"
+        self.embedded, self.search_calls, self.prompts = [], [], []
+        self.histories = {}
+
+    def embed(self, text):
+        self.embedded.append(text)
+        return [0.1, 0.2, 0.3]
+
+    def search(self, vector, top_k=5):
+        self.search_calls.append((vector, top_k))
+        return self.matches
+
+    def history(self, session_id):
+        return self.histories.setdefault(session_id, FakeHistory())
+
+    def save(self, session_id, question, answer):
+        self.history(session_id).messages += [HumanMessage(question), AIMessage(answer)]
+
+    @property
+    def llm(self):
+        """Returns the rewrite for the rewrite prompt and the answer for the answer prompt."""
+        def reply(prompt_value):
+            text = prompt_value.to_string()
+            self.prompts.append(text)
+            return self.rewrite if REWRITE_MARKER in text else self.answer
+
+        return RunnableLambda(reply)
+
+
+@pytest.fixture
+def fake(monkeypatch):
+    services = FakeServices()
+    monkeypatch.setattr(retrieval, "embed_query", services.embed)
+    monkeypatch.setattr(retrieval, "search_chunks", services.search)
+    monkeypatch.setattr(retrieval, "get_session_history", services.history)
+    monkeypatch.setattr(retrieval, "save_conversation", services.save)
+    return services
+
+
+def failing_llm(error=ConnectionError("LLM provider unreachable")):
+    def fail(_prompt):
+        raise error
+
+    return RunnableLambda(fail)
