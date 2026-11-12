@@ -1,7 +1,6 @@
 :host {
-  --lane: 900px;
-  --gutter: 11rem;
   display: flex;
+  flex-direction: column;
   flex: 1 1 auto;
   width: 100%;
   min-height: 0;
@@ -9,104 +8,21 @@
 }
 
 .thread {
-  width: stretch;
-  max-height: 500px;
-  overflow-y: auto;
-  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
-  mask-image: linear-gradient(
-    to bottom,
-    transparent calc(0, 50px),
-    transparent 100%
-  );
-}
-
-/* .thread {
-  flex: 1;
+  flex: 1 1 auto;
   min-height: 0;
   width: 100%;
-  display: grid;
-  grid-template-columns: minmax(var(--gutter), 1fr) minmax(0, var(--lane)) minmax(var(--gutter), 1fr);
-  grid-template-rows: minmax(100%, auto);
-  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
   overflow-y: auto;
-} */
-
-.gutter {
-  grid-row: 1;
-  pointer-events: none;
-  background-image: radial-gradient(circle, rgba(180, 245, 237, 0.34) 0.8px, transparent 1px);
-  background-size: 20px 20px;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
 }
 
-.gutter-left {
-  grid-column: 1;
-  background-position: right top;
-  -webkit-mask-image: linear-gradient(to left, rgba(0, 0, 0, 0.9), transparent 150px);
-  mask-image: linear-gradient(to left, rgba(0, 0, 0, 0.9), transparent 150px);
+/* Empty flex item that grows, so a short thread sits on the bottom instead of the top. */
+.thread::before {
+  content: "";
+  margin-top: auto;
 }
 
-.gutter-right {
-  grid-column: 3;
-  background-position: left top;
-  -webkit-mask-image: linear-gradient(to right, rgba(0, 0, 0, 0.9), transparent 150px);
-  mask-image: linear-gradient(to right, rgba(0, 0, 0, 0.9), transparent 150px);
-}
-
-.messages {
-  grid-column: 1 / -1;
-  grid-row: 1;
-  z-index: 1;
-  min-height: 100%;
-  display: grid;
-  grid-template-columns: subgrid;
-  align-content: end;
-}
-
-.margin {
-  min-width: 0;
-  padding-top: 16px;
-}
-
-.margin-left {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 4px;
-  padding-right: 14px;
-  text-align: right;
-}
-
-.margin-right {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 4px;
-  padding-left: 14px;
-}
-
-.time,
-.source {
-  text-shadow: 0 1px 2px rgb(from var(--bg) r g b / 0.85);
-}
-
-.time {
-  font-size: 11px;
-  letter-spacing: 0.04em;
-  color: rgb(from var(--mist) r g b / 0.7);
-  white-space: nowrap;
-}
-
-.source {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  max-width: 100%;
-  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
-  font-size: 11px;
-  line-height: 1.35;
-  color: rgb(from var(--mist) r g b / 0.88);
-}
-
-.source span {
-  white-space: nowrap;
+.thread > * {
+  flex-shrink: 0;
 }

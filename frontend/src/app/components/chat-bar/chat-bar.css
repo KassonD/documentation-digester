@@ -33,10 +33,7 @@
 
     font-family: inherit;
     line-height: 20px;
-}
-
-.chat-input:focus {
-  border-color: #007bff; /* Highlights blue when typing */
+    scrollbar-width: none;
 }
 
 .send-btn {
@@ -56,15 +53,23 @@
 }
 
 .send-btn:hover {
-  background-color: #0056b3;
+  background-color: var(--mid);
 }
 
 .send-btn:active {
   transform: scale(0.95);
 }
 
-.chat-input {
-  scrollbar-width: none; 
+.chat-input:disabled,
+.send-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.send-btn:disabled:hover,
+.send-btn:disabled:active {
+  background-color: var(--bg);
+  transform: none;
 }
 
 .chat-input::-webkit-scrollbar {

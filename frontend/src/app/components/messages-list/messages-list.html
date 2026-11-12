@@ -1,37 +1,8 @@
-<div class="thread">
+<div #thread class="thread">
     @for (message of chatService.messages(); track message.timestamp) {
         <app-chat-bubble [message]="message"></app-chat-bubble>
     }
+    @if (awaitingReply) {
+        <app-response-loader />
+    }
 </div>
-<!-- <div class="thread">
-    <div class="gutter gutter-left" aria-hidden="true"></div>
-    <div class="gutter gutter-right" aria-hidden="true"></div>
-    <div class="messages">
-        @for (message of messageList; track message.timestamp) {
-            <div class="margin margin-left">
-                @if (!message.isPrompt) {
-                    <time class="time" [attr.datetime]="message.timestamp | date: 'yyyy-MM-ddTHH:mm:ss'">
-                        {{ message.timestamp | date: 'h:mm a' }}
-                    </time>
-                    @if (message.source) {
-                        <span class="source" [title]="message.source">
-                            @for (part of sourceParts(message.source); track $index; let last = $last) {
-                                <span>{{ last ? part : part + '/' }}</span>
-                            }
-                        </span>
-                    }
-                }
-            </div>
-            <div class="lane">
-                <app-chat-bubble [message]="message.message" [isPrompt]="message.isPrompt"></app-chat-bubble>
-            </div>
-            <div class="margin margin-right">
-                @if (message.isPrompt) {
-                    <time class="time" [attr.datetime]="message.timestamp | date: 'yyyy-MM-ddTHH:mm:ss'">
-                        {{ message.timestamp | date: 'h:mm a' }}
-                    </time>
-                }
-            </div>
-        }
-    </div>
-</div> -->

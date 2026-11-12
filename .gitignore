@@ -234,3 +234,7 @@ __marimo__/
 
 # ignore chroma data
 data/chroma
+
+# Frontend install and build cache
+node_modules/
+.angular/

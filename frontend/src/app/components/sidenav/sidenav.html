@@ -10,7 +10,7 @@
   @for (chat of chats(); track chat.id) {
     <li>
       <app-chat-history-item
-        [title]="chat.title"
+        [title]="chat.name"
         [selected]="selectedId() === chat.id"
         (titleChange)="rename(chat.id, $event)"
         (selectedChange)="select(chat.id)"

@@ -9,9 +9,13 @@
     }
     <div class="message-wrapper">
         <div class="bubble">
-            <p>{{message().message}}</p>
+            @if (message().isPrompt) {
+                <div class="text prompt">{{ message().message }}</div>
+            } @else {
+                <div class="text" [innerHTML]="html()"></div>
+            }
             @if (!message().isPrompt) {
-                @for (source of message().sources; track source) {
+                @for (source of message().sources ?? []; track $index) {
                     <app-badges [fileName]="source" />
                 }
             }

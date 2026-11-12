@@ -1,12 +1,8 @@
 import { Component, ElementRef, effect, inject, signal, viewChild } from '@angular/core';
+import { ChatService } from '../../services/chat.service';
 import { ChatHistoryItem } from '../chat-history-item/chat-history-item';
 
 const themeKey = 'theme';
-
-interface Chat {
-  id: number;
-  title: string;
-}
 
 function readNebula(): boolean {
   try {
@@ -40,16 +36,12 @@ function storeTheme(nebula: boolean): void {
 })
 export class Sidenav {
   private readonly host = inject(ElementRef<HTMLElement>);
+  private readonly chatsService = inject(ChatService);
   private readonly settingsRoot = viewChild<ElementRef<HTMLElement>>('settingsRoot');
   private animationTimer?: ReturnType<typeof setTimeout>;
-  private nextId = 3;
 
-  protected readonly chats = signal<Chat[]>([
-    { id: 0, title: 'Project setup' },
-    { id: 1, title: 'API notes' },
-    { id: 2, title: 'Open questions' },
-  ]);
-  protected readonly selectedId = signal<number | null>(null);
+  protected readonly chats = this.chatsService.chatList;
+  protected readonly selectedId = this.chatsService.selectedId;
   protected readonly open = signal(true);
   protected readonly animating = signal(false);
   protected readonly settingsMenu = signal(false);
@@ -93,13 +85,12 @@ export class Sidenav {
   }
 
   protected select(id: number): void {
-    this.selectedId.set(id);
+    this.chatsService.loadChat(id);
   }
 
   protected create(): void {
-    const id = this.nextId++;
-    this.chats.update((chats) => [{ id, title: 'New chat' }, ...chats]);
-    this.selectedId.set(id);
+    const id = this.chatsService.addChat('New chat');
+    this.chatsService.loadChat(id);
   }
 
   protected toggle(): void {
@@ -121,16 +112,14 @@ export class Sidenav {
   }
 
   protected rename(id: number, title: string): void {
-    this.chats.update((chats) => chats.map((chat) => (chat.id === id ? { ...chat, title } : chat)));
+    this.chatsService.renameChat(id, title);
   }
 
   protected remove(id: number): void {
-    this.chats.update((chats) => chats.filter((chat) => chat.id !== id));
-    if (this.selectedId() === id) {
-      this.selectedId.set(null);
-    }
+    this.chatsService.removeChatById(id);
   }
 
+  // The stylesheet stores seconds ("0.35s") or milliseconds. The timer needs milliseconds.
   private animationMs(): number {
     const raw = getComputedStyle(this.host.nativeElement).getPropertyValue('--sidenav-duration').trim();
     const value = Number.parseFloat(raw);

@@ -17,6 +17,7 @@ body {
   --accent: #39d6c5;
   --mist: #b4f5ed;
   --logo-hue: 0deg;
+  --time-column: 150px;
 }
 
 :root[data-theme='nebula'] {

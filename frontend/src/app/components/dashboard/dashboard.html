@@ -1,7 +1,7 @@
 <main class="dashboard">
     <div class="container" [class.chat-active]="chatStarted"> 
         @if (!chatStarted) {
-            <app-welcome-message></app-welcome-message>
+            <app-welcome-message (questionSelected)="onQuestionSubmitted($event)"></app-welcome-message>
         } 
         @else {
             <div class="divisor">

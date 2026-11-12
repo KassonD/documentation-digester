@@ -14,5 +14,5 @@
 
 .copy-btn:hover {
     opacity: 1;
-    background: rgba(180, 245, 237, 0.15);
+    background: rgb(from var(--mist) r g b / 0.15);
 }
